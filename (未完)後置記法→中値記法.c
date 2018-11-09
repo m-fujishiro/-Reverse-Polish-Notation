@@ -4,16 +4,16 @@
 
 void ppak()
 {
-	//�P�̂ł������悤��
+	//単体でも動くように
 #include <conio.h>
 
-	//�L�[�{�[�h�ɓ����Ă��镶����̏�����
+	//キーボードに入っている文字列の初期化
 	while (1) {
 		if (_kbhit()) { _getch(); }
 		else break;
 	};
 
-	//�L�[���͂��������烋�[�v�𔲂���
+	//キー入力があったらループを抜ける
 	while (1) {
 		if (_kbhit()) { _getch(); break; }
 	};
@@ -21,23 +21,23 @@ void ppak()
 
 int main(void){
 
-		//�L�[�{�[�h�̓��͂�������
+		//キーボードの入力を初期化
 	while (1) {
 		if (_kbhit()) { _getch(); }
 		else break;
 	};
 
 BS:
-	puts("������͂��Ă��������BEnter�L�[�Ō���ł��B\n���l�̓X�y�[�X�L�[�ŋ�؂��Ă��������B");
+	puts("式を入力してください。Enterキーで決定です。\n数値はスペースキーで区切ってください。");
 
 	char user = 0,sign[500]= {0};int formula[1000] = { 0 }, num[5] = { 0 }, i = 0,j = 0, n = 0,s = 0;
 	
-	//���s�����͂��ꂽ��I��
+	//改行が入力されたら終了
 	while (user != '\r') {
 		
 		user = _getch();
 	
-		//���l�̏ꍇ
+		//数値の場合
 		if ((user >= '0') && (user <= '9')) {
 			num[i] = user;
 			putchar(num[i]);
@@ -45,12 +45,12 @@ BS:
 			i++;
 		}
 
-		//�X�y�[�X�L�[�̏ꍇ
+		//スペースキーの場合
 		else if (user == ' ') {
 			
 			putchar(' ');
 
-	//���l�𔻒f���ē����
+	//数値を判断して入れる
 			if (i > 0) {
 
 				i--;j = i;
@@ -61,7 +61,7 @@ BS:
 
 		}
 		
-		//���Z�L����BS�L�[�̏ꍇ
+		//演算記号やBSキーの場合
 		else {
 	
 			if (i > 0) {
@@ -83,26 +83,26 @@ BS:
 	putchar('\n');
 
 
-	//�G���[����
+	//エラー処理
 	if (i != 0) {
-		puts("error!���̍Ō�͉��Z�L���ɂ��Ă�������\n"); goto BS;
+		puts("error!式の最後は演算記号にしてください\n"); goto BS;
 	}
 
-		/*���l�̌� == ���Z�L���̌� + 1*/
-		//s == ���Z�L���̌�,n == �S�̗̂v�f��
-		/*���l�̌� == �S�̗̂v�f��-���Z�L���̌�*/
+		/*数値の個数 == 演算記号の個数 + 1*/
+		//s == 演算記号の個数,n == 全体の要素数
+		/*数値の個数 == 全体の要素数-演算記号の個数*/
 
 		if (n - s != s + 1) {
-			puts("error!���Z�L���͐��l������Ȃ����ɂ��Ă��������B\n"); goto BS;
+			puts("error!演算記号は数値より一つ少ない個数にしてください。\n"); goto BS;
 		}
 
-	/*�t�|�[�����h�L�@�ɂȂ��Ă��Ȃ�*/
+	/*逆ポーランド記法になっていない*/
 
 		if (formula[0] == -1) {
-			puts("error!���̍ŏ��̂Q�͐��l�ɂ��Ă�������\n"); goto BS;
+			puts("error!式の最初の２つは数値にしてください\n"); goto BS;
 		}
 
-			/*�e�X�g�p*/
+			/*テスト用*/
 /*	
 	for (i = 0,s = 0;i < n;i++) {
 
@@ -116,21 +116,19 @@ BS:
 	}
 */
 
-		//�u��������������
+		//置換部分ここから
 
 		s = 0;j=0;
 
 		while(1){
 		
-		//i = �L���̈ʒu		
+		//i = 記号の位置		
 		for(;i < n;i++) if (formula[i] < 0) break;
 		
 		if(j == 0){
 		
-			//�Ƃ肠���������Z�����Z�͑S���������Ƃ�
-
-			/*�����̎��̓��O�A�E�g���܂���*/
-			/*�����̎��A�C�����I*/
+			//とりあえず足し算引き算は全部くくっとく
+			//いつかやる
 		if((sign[s]== '+')||(sign[s] == '-'))	printf("("),j=1;
 		else j=0;
 		
